@@ -12,7 +12,7 @@ export default function Set(props) {
                         props.expanded ? styles.headerExpanded : styles.header
                     }
                 >
-                    <Text style={styles.headerText}>Set #{props.no}</Text>
+                    <Text style={styles.headerText}>Set #{props.setNumber}</Text>
                     <Icon
                         name={
                             props.expanded
@@ -27,19 +27,19 @@ export default function Set(props) {
                     <SetOption
                         style={styles.setOption}
                         title="Sprinting Duration (s)"
-                        defaultValue={5}
+                        defaultValue={props.defaultSprintingDuration}
                         minValue={1}
                     ></SetOption>
                     <SetOption
                         style={styles.setOption}
                         title="Rest Duration (s)"
-                        defaultValue={10}
+                        defaultValue={props.defaultRestDuration}
                         minValue={1}
                     ></SetOption>
                     <SetOption
                         style={styles.setOption}
                         title="Reps"
-                        defaultValue={5}
+                        defaultValue={props.defaultReps}
                         minValue={1}
                     ></SetOption>
                 </View>

@@ -1,43 +1,73 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Set from "./components/Set";
+import Break from "./components/Break";
 
 export default function App() {
+    const [options, setOptions] = useState({
+        defaultSprintingDuration: 5,
+        defaultRestDuration: 10,
+        defaultReps: 5,
+        defaultBreakDuration: 55,
+    });
+
     const [sets, setSets] = useState([
         {
-            no: 1,
+            id: 1,
             expanded: true,
         },
         {
-            no: 2,
+            id: 2,
             expanded: false,
+        },
+    ]);
+
+    const [breaks, setBreaks] = useState([
+        {
+            id: 1,
+            breakDuration: 55,
         },
     ]);
 
     const toggleExpansion = (set) => {
         set.expanded = !set.expanded;
-        let output = [...sets]
+        let output = [...sets];
         output.map((s) => {
-            if (s.no === set.no) {
+            if (s.id === set.id) {
                 return set;
             }
             return s;
-        })
-        setSets(output)
+        });
+        setSets(output);
     };
 
     return (
         <View style={styles.container}>
             {sets.map((set) => {
-                return (
+                const setRender = (
                     <Set
                         style={styles.setIndividual}
-                        no={set.no}
-                        key={set.no}
+                        setNumber={set.id}
+                        key={"set-" + set.id}
                         handleExpand={() => toggleExpansion(set)}
-                        expanded={sets.find((s) => s.no === set.no).expanded}
+                        expanded={sets.find((s) => s.id === set.id).expanded}
+                        defaultSprintingDuration={options.defaultSprintingDuration}
+                        defaultRestDuration={options.defaultRestDuration}
+                        defaultReps={options.defaultReps}
                     ></Set>
                 );
+                let breakRender = breaks.find((b) => b.id === set.id);
+                {
+                    breakRender &&
+                        (breakRender = (
+                            <Break
+                                style={styles.setIndividual}
+                                key={"break-" + breakRender.id}
+                                duration={breakRender.breakDuration}
+                            ></Break>
+                        ));
+                }
+                return breakRender ? [setRender, breakRender] : setRender;
             })}
         </View>
     );
@@ -56,5 +86,5 @@ const styles = {
     setIndividual: {
         marginTop: 10,
         marginBottom: 10,
-    }
+    },
 };
