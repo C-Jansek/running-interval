@@ -32,7 +32,4 @@ const styles = {
         fontSize: 14,
         color: '#5f5f5f'
     },
-    numberInput: {
-        // backgroundColor: "#ddd",
-    },
 };

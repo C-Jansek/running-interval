@@ -51,7 +51,7 @@ export default function Set(props) {
 const styles = {
     wrapper: {
         backgroundColor: "#f2f2f2",
-        padding: 10,
+        padding: 15,
         borderRadius: 8,
         width: "100%",
     },
@@ -75,7 +75,6 @@ const styles = {
     },
     body: {
         display: "flex",
-        gap: 10,
     },
     setOption: {
         marginTop: 10,
