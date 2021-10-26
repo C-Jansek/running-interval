@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Set from "./components/Set";
-import Break from "./components/Break";
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import Set from './components/Set';
+import Break from './components/Break';
+import themeStyle from './styles/theme.style';
 
 export default function App() {
     const [options, setOptions] = useState({
@@ -30,11 +31,12 @@ export default function App() {
     ]);
 
     const toggleExpansion = (set) => {
-        set.expanded = !set.expanded;
-        let output = [...sets];
+        const newSet = set;
+        newSet.expanded = !newSet.expanded;
+        const output = [...sets];
         output.map((s) => {
-            if (s.id === set.id) {
-                return set;
+            if (s.id === newSet.id) {
+                return newSet;
             }
             return s;
         });
@@ -48,24 +50,25 @@ export default function App() {
                     <Set
                         style={styles.setIndividual}
                         setNumber={set.id}
-                        key={"set-" + set.id}
+                        key={`set-${set.id}`}
                         handleExpand={() => toggleExpansion(set)}
                         expanded={sets.find((s) => s.id === set.id).expanded}
-                        defaultSprintingDuration={options.defaultSprintingDuration}
+                        defaultSprintingDuration={
+                            options.defaultSprintingDuration
+                        }
                         defaultRestDuration={options.defaultRestDuration}
                         defaultReps={options.defaultReps}
-                    ></Set>
+                    />
                 );
                 let breakRender = breaks.find((b) => b.id === set.id);
-                {
-                    breakRender &&
-                        (breakRender = (
-                            <Break
-                                style={styles.setIndividual}
-                                key={"break-" + breakRender.id}
-                                duration={breakRender.breakDuration}
-                            ></Break>
-                        ));
+                if (breakRender) {
+                    breakRender = (
+                        <Break
+                            style={styles.setIndividual}
+                            key={`break-${breakRender.id}`}
+                            duration={breakRender.breakDuration}
+                        />
+                    );
                 }
                 return breakRender ? [setRender, breakRender] : setRender;
             })}
@@ -73,18 +76,18 @@ export default function App() {
     );
 }
 
-const styles = {
+const styles = StyleSheet.create({
     container: {
-        display: "flex",
+        display: 'flex',
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
 
         padding: 20,
-        backgroundColor: "#202024",
+        backgroundColor: themeStyle.color.almostBlack,
     },
     setIndividual: {
         marginTop: 10,
         marginBottom: 10,
     },
-};
+});
