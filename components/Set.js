@@ -28,24 +28,26 @@ export default function Set(props) {
             </Pressable>
             {props.expanded && (
                 <View style={styles.body}>
-                    <SetOption
-                        style={styles.setOption}
-                        title="Sprinting Duration (s)"
-                        defaultValue={props.defaultSprintingDuration}
-                        minValue={1}
-                    />
-                    <SetOption
-                        style={styles.setOption}
-                        title="Rest Duration (s)"
-                        defaultValue={props.defaultRestDuration}
-                        minValue={1}
-                    />
-                    <SetOption
+                    {props.setOptions.map((setOption) => (
+                        <SetOption
+                            style={styles.setOption}
+                            title={
+                                setOption.unit
+                                    ? `${setOption.title} (${setOption.unit})`
+                                    : setOption.title
+                            }
+                            key={setOption.title}
+                            value={setOption.value}
+                            minValue={setOption.minValue}
+                            handlePress={() => setOption.handlePress(setOption)}
+                        />
+                    ))}
+                    {/* <SetOption
                         style={styles.setOption}
                         title="Reps"
-                        defaultValue={props.defaultReps}
+                        value={props.defaultReps}
                         minValue={1}
-                    />
+                    /> */}
                 </View>
             )}
         </View>
@@ -57,9 +59,7 @@ Set.propTypes = {
     handleExpand: PropTypes.func.isRequired,
     expanded: PropTypes.bool.isRequired,
     setNumber: PropTypes.number.isRequired,
-    defaultSprintingDuration: PropTypes.number.isRequired,
-    defaultRestDuration: PropTypes.number.isRequired,
-    defaultReps: PropTypes.number.isRequired,
+    setOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 Set.defaultProps = {
@@ -70,7 +70,7 @@ const styles = {
     wrapper: {
         backgroundColor: themeStyle.color.almostWhite,
         padding: 15,
-        borderRadius: 8,
+        borderRadius: themeStyle.layout.radiusMedium,
         width: '100%',
     },
     header: {

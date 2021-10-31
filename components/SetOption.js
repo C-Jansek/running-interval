@@ -1,39 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, ViewPropTypes } from 'react-native';
-import NumericInput from 'react-native-numeric-input';
+import { Pressable, Text, View, ViewPropTypes } from 'react-native';
 import themeStyle from '../styles/theme.style';
 
 export default function SetOption(props) {
-    const [optionValue, setOptionValue] = useState(props.defaultValue);
-
     return (
         <View style={[styles.wrapper, props.style]}>
             <Text style={styles.title}>{props.title}</Text>
-            <View style={styles.numberInput}>
-                <NumericInput
-                    rounded
-                    value={optionValue}
-                    minValue={props.minValue}
-                    // maxValue={props.maxValue}
-                    onChange={(value) => setOptionValue(value)}
-                />
-            </View>
+            <Pressable style={styles.numberInput} onPress={props.handlePress}>
+                <Text>{props.value}</Text>
+            </Pressable>
         </View>
     );
 }
 
 SetOption.propTypes = {
     style: ViewPropTypes.style,
-    defaultValue: PropTypes.number,
+    value: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    minValue: PropTypes.number,
+    handlePress: PropTypes.func,
 };
 
 SetOption.defaultProps = {
     style: {},
-    defaultValue: 0,
-    minValue: 0,
+    handlePress: undefined,
 };
 
 const styles = {
@@ -46,5 +36,15 @@ const styles = {
     title: {
         fontSize: 14,
         color: themeStyle.color.mediumGray,
+    },
+    numberInput: {
+        width: 50,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: themeStyle.color.darkWhite,
+        color: themeStyle.color.mediumGray,
+        padding: 5,
+        borderRadius: themeStyle.layout.radiusSmall,
     },
 };

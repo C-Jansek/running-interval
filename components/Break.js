@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, Pressable, View, ViewPropTypes } from 'react-native';
+import themeStyle from '../styles/theme.style';
 
 export default function Break(props) {
     return (
@@ -28,7 +29,7 @@ const styles = {
     wrapper: {
         backgroundColor: '#444',
         padding: 15,
-        borderRadius: 8,
+        borderRadius: themeStyle.layout.radiusMedium,
         width: '70%',
     },
     header: {
@@ -39,6 +40,6 @@ const styles = {
     },
     headerText: {
         fontSize: 16,
-        color: '#f5f5f5',
+        color: themeStyle.color.almostWhite,
     },
 };
