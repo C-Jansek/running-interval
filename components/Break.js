@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, Pressable, View, ViewPropTypes } from 'react-native';
+import { Text, Pressable, View, StyleSheet } from 'react-native';
+import stylePropType from 'react-style-proptype';
+import themeStyle from '../styles/theme.style';
 
 export default function Break(props) {
     return (
@@ -16,7 +18,7 @@ export default function Break(props) {
 }
 
 Break.propTypes = {
-    style: ViewPropTypes.style,
+    style: stylePropType,
     duration: PropTypes.number.isRequired,
 };
 
@@ -24,9 +26,9 @@ Break.defaultProps = {
     style: {},
 };
 
-const styles = {
+const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: '#444',
+        backgroundColor: themeStyle.color.darkGray,
         padding: 15,
         borderRadius: 8,
         width: '70%',
@@ -39,6 +41,6 @@ const styles = {
     },
     headerText: {
         fontSize: 16,
-        color: '#f5f5f5',
+        color: themeStyle.color.almostWhite,
     },
-};
+});

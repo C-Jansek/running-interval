@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, ViewPropTypes } from 'react-native';
+import { Text, View } from 'react-native';
+import stylePropType from 'react-style-proptype';
 import NumericInput from 'react-native-numeric-input';
 import themeStyle from '../styles/theme.style';
 
@@ -24,7 +25,7 @@ export default function SetOption(props) {
 }
 
 SetOption.propTypes = {
-    style: ViewPropTypes.style,
+    style: stylePropType,
     defaultValue: PropTypes.number,
     title: PropTypes.string.isRequired,
     minValue: PropTypes.number,

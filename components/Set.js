@@ -1,65 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Text, Pressable, View, ViewPropTypes } from 'react-native';
+import { Text, Pressable, View } from 'react-native';
+import stylePropType from 'react-style-proptype';
 import { Icon } from 'react-native-elements';
-import SetOption from './SetOption';
+import SetBody from './SetBody';
+import Break from './Break';
 import themeStyle from '../styles/theme.style';
+import '../types/workout';
 
 export default function Set(props) {
+    if (props.type === 'break') {
+        return (
+            <Break
+                style={props.style}
+                title={props.title}
+                duration={props.options.breakDuration}
+            />
+        );
+    }
+
+    const [expanded, setExpanded] = useState(false);
+
     return (
         <View style={[styles.wrapper, props.style]}>
-            <Pressable onPress={props.handleExpand}>
-                <View
-                    style={
-                        props.expanded ? styles.headerExpanded : styles.header
-                    }
-                >
-                    <Text style={styles.headerText}>
-                        Set #{props.setNumber}
-                    </Text>
+            <Pressable onPress={() => setExpanded(!expanded)}>
+                <View style={expanded ? styles.headerExpanded : styles.header}>
+                    <Text style={styles.headerText}>{props.title}</Text>
                     <Icon
                         name={
-                            props.expanded
+                            expanded
                                 ? 'keyboard-arrow-up'
                                 : 'keyboard-arrow-down'
                         }
                     />
                 </View>
             </Pressable>
-            {props.expanded && (
-                <View style={styles.body}>
-                    <SetOption
-                        style={styles.setOption}
-                        title="Sprinting Duration (s)"
-                        defaultValue={props.defaultSprintingDuration}
-                        minValue={1}
-                    />
-                    <SetOption
-                        style={styles.setOption}
-                        title="Rest Duration (s)"
-                        defaultValue={props.defaultRestDuration}
-                        minValue={1}
-                    />
-                    <SetOption
-                        style={styles.setOption}
-                        title="Reps"
-                        defaultValue={props.defaultReps}
-                        minValue={1}
-                    />
-                </View>
-            )}
+            {expanded && <SetBody options={props.options} />}
         </View>
     );
 }
 
 Set.propTypes = {
-    style: ViewPropTypes.style,
-    handleExpand: PropTypes.func.isRequired,
-    expanded: PropTypes.bool.isRequired,
-    setNumber: PropTypes.number.isRequired,
-    defaultSprintingDuration: PropTypes.number.isRequired,
-    defaultRestDuration: PropTypes.number.isRequired,
-    defaultReps: PropTypes.number.isRequired,
+    style: stylePropType,
+    type: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    options: PropTypes.shape(PropTypes.number).isRequired,
 };
 
 Set.defaultProps = {
@@ -90,11 +75,5 @@ const styles = {
     },
     headerText: {
         fontSize: 18,
-    },
-    body: {
-        display: 'flex',
-    },
-    setOption: {
-        marginTop: 10,
     },
 };
